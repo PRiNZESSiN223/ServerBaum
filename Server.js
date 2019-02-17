@@ -1,11 +1,7 @@
-/**
- * Simple server managing between client and database
- * @author: Jirka Dell'Oro-Friedl
- */
 "use strict";
 var Http = require("http");
 var Url = require("url");
-var Database = require("./Database");
+var Database = require("Database");
 console.log("Server starting");
 var port = process.env.PORT;
 if (port == undefined)
@@ -23,14 +19,14 @@ function handleRequest(_request, _response) {
     var command = query["command"];
     switch (command) {
         case "insert":
-            var student = {
+            var highscore = {
                 name: query["name"],
-                score: query["score"],
+                score: parseInt(query["score"])
             };
-            Database.insert(student);
+            Database.insert(highscore);
             respond(_response, "storing data");
             break;
-        case "refresh":
+        case "getHighscore":
             Database.findAll(findCallback);
             break;
         default:
